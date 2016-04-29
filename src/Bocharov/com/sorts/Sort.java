@@ -15,8 +15,9 @@ public abstract class Sort implements Runnable
 { 
    protected int[] mas;
     public static final Object monitor=new Object();
+    public final PainterPanel my;
    public abstract void sort();
-   public final PainterPanel my;
+
 
 
     public Sort(int[] mas) {

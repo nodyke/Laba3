@@ -14,7 +14,7 @@ import Bocharov.com.sorts.Sort;
 public class SortThread extends Thread{
     Sort sort;
     public static final Object monitor=new Object();
-    //JButton start;
+   // JButton start;
     //JButton pause;
     boolean isRunning=false;
 
