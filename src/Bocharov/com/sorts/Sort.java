@@ -16,6 +16,8 @@ public abstract class Sort implements Runnable
    protected int[] mas;
     public static final Object monitor=new Object();
     public final PainterPanel my;
+   public boolean isRunning=false;
+   public boolean isPause=false;
    public abstract void sort();
 
 
@@ -32,6 +34,7 @@ public abstract class Sort implements Runnable
 
     @Override
     public void run() {
+        isRunning=true;
         sort();
 
     }

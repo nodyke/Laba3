@@ -12,11 +12,11 @@ import Bocharov.com.sorts.Sort;
  * @author Дмитрий
  */
 public class SortThread extends Thread{
-    Sort sort;
-    public static final Object monitor=new Object();
+   public final Sort sort;
+   // public static final Object monitor=new Object();
    // JButton start;
     //JButton pause;
-    boolean isRunning=false;
+  //  boolean isRunning=false;
 
     public SortThread(Sort sort) {
         this.sort = sort;
@@ -24,7 +24,7 @@ public class SortThread extends Thread{
 
     @Override
     public void run() {
-        sort.sort();
+        sort.run();
        // sort.outArray();//To change body of generated methods, choose Tools | Templates.
     }
     

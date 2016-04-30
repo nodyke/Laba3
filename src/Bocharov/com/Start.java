@@ -5,10 +5,16 @@
  */
 package Bocharov.com;
 
-import Bocharov.com.sorts.*;
+import Bocharov.com.sorts.BubbleSort;
+import Bocharov.com.sorts.InsertionSort;
+import Bocharov.com.sorts.SelectionSort;
+import Bocharov.com.sorts.ShellSort;
+import Bocharov.threads.SortThread;
+import Bocharov.threads.WakeThread;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @author Дмитрий
@@ -22,37 +28,38 @@ public class Start {
         JFrame window = new JFrame();
         window.setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
         window.setSize(new Dimension(600, 600));
-        Sort bubble = new BubbleSort(mas.clone());
-        Thread one = new Thread(bubble);
+        ArrayList<SortThread> threads = new ArrayList<SortThread>();
+        SortThread sort1 = new SortThread(new BubbleSort(mas.clone()));
+        threads.add(sort1);
+        SortThread sort2 = new SortThread(new InsertionSort(mas.clone()));
+        threads.add(sort2);
+        SortThread sort3 = new SortThread(new SelectionSort(mas.clone()));
+        threads.add(sort3);
+        SortThread sort4 = new SortThread(new ShellSort(mas.clone()));
+        threads.add(sort4);
 
-        Sort insertion = new InsertionSort(mas.clone());
-        Thread two = new Thread(insertion);
-
-        Sort selection = new SelectionSort(mas.clone());
-        // three.my.setBounds();
-        Sort shell = new ShellSort(mas.clone());
-        Thread three=new Thread(selection);
-        Thread four=new Thread(shell);
-        window.add(bubble.my, FlowLayout.LEFT);
-        window.add(insertion.my, FlowLayout.LEFT);
-         window.add(selection.my, FlowLayout.LEFT);
+        window.add(sort1.sort.my, FlowLayout.LEFT);
+        window.add(sort2.sort.my, FlowLayout.LEFT);
+        window.add(sort3.sort.my, FlowLayout.LEFT);
         //   window.add(three.my);
-          window.add(shell.my,FlowLayout.LEFT);
+        window.add(sort4.sort.my, FlowLayout.LEFT);
+        WakeThread wake = new WakeThread(threads);
         window.setVisible(true);
 
 
         synchronized (monitor) {
-            one.start();
-            two.start();
-            three.start();
-            four.start();
+            sort1.start();
+            sort2.start();
+            sort3.start();
+            sort4.start();
+            wake.start();
+
 
         }
 
-    //three.run();
+
+        //three.run();
 //    four.run();
-
-
 
 
     }

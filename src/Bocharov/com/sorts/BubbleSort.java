@@ -30,7 +30,10 @@ public class BubbleSort extends Sort {
 
                     try {
                         synchronized (monitor) {
-                            monitor.wait(1000); my.updateUI();
+                            my.updateUI();
+                            this.isPause=true;
+                            monitor.wait();
+
 
                         }
                     } catch (InterruptedException e) {
