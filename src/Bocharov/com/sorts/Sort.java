@@ -18,7 +18,7 @@ public abstract class Sort implements Runnable
     public final PainterPanel my;
    public boolean isRunning=false;
    public boolean isPause=false;
-   public abstract void sort();
+   public  abstract void sort();
 
 
 
@@ -34,8 +34,22 @@ public abstract class Sort implements Runnable
 
     @Override
     public void run() {
-        isRunning=true;
-        sort();
+        synchronized (monitor) {
+            isRunning = true;
+            sort();
+        }
 
     }
-}
+    public void update() {
+        synchronized (monitor) {
+            try {
+                my.updateUI();
+                this.isPause = true;
+                monitor.wait();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+    }
+

@@ -6,41 +6,31 @@
 package Bocharov.com.sorts;
 
 /**
- *
  * @author Дмитрий
  */
-public class SelectionSort extends Sort{
+public class SelectionSort extends Sort {
 
     public SelectionSort(int[] mas) {
         super(mas);
     }
 
     @Override
-    public void sort() {
+    public synchronized void sort() {
         int min, temp;
 
-    for (int index = 0; index < mas.length-1; index++){
-        min = index;
-        for (int scan = index+1; scan < mas.length; scan++)
-            if (mas[scan] < mas[min])
-                min = scan;
+        for (int index = 0; index < mas.length - 1; index++) {
+            min = index;
+            for (int scan = index + 1; scan < mas.length; scan++)
+                if (mas[scan] < mas[min])
+                    min = scan;
 
-        // Swap the values
-        temp = mas[min];
-        mas[min] = mas[index];
-        mas[index] = temp;
-        try {
-            synchronized (monitor) {
-                my.updateUI();
-                this.isPause=true;
-                monitor.wait();
-
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            // Swap the values
+            temp = mas[min];
+            mas[min] = mas[index];
+            mas[index] = temp;
+            update();
         }
     }
-    }
-    
-    
+
+
 }

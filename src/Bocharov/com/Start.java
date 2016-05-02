@@ -5,11 +5,7 @@
  */
 package Bocharov.com;
 
-import Bocharov.com.sorts.BubbleSort;
-import Bocharov.com.sorts.InsertionSort;
-import Bocharov.com.sorts.SelectionSort;
-import Bocharov.com.sorts.ShellSort;
-import Bocharov.threads.SortThread;
+import Bocharov.com.sorts.*;
 import Bocharov.threads.WakeThread;
 
 import javax.swing.*;
@@ -25,33 +21,15 @@ public class Start {
     public void start() {
 
         int[] mas = {5, 0, 20, 10, 25, 40, 60, 45, 35, 30, 50, 70, 90, 85, 75, 80, 55, 65, 100, 95};
-        JFrame window = new JFrame();
-        window.setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
-        window.setSize(new Dimension(600, 600));
-        ArrayList<SortThread> threads = new ArrayList<SortThread>();
-        SortThread sort1 = new SortThread(new BubbleSort(mas.clone()));
-        threads.add(sort1);
-        SortThread sort2 = new SortThread(new InsertionSort(mas.clone()));
-        threads.add(sort2);
-        SortThread sort3 = new SortThread(new SelectionSort(mas.clone()));
-        threads.add(sort3);
-        SortThread sort4 = new SortThread(new ShellSort(mas.clone()));
-        threads.add(sort4);
+        JFrame window = getWindow();
+        ArrayList<Sort> sorts = getSorts(mas.clone());
+        add(sorts,window);
 
-        window.add(sort1.sort.my, FlowLayout.LEFT);
-        window.add(sort2.sort.my, FlowLayout.LEFT);
-        window.add(sort3.sort.my, FlowLayout.LEFT);
-        //   window.add(three.my);
-        window.add(sort4.sort.my, FlowLayout.LEFT);
-        WakeThread wake = new WakeThread(threads);
         window.setVisible(true);
-
-
-        synchronized (monitor) {
-            sort1.start();
-            sort2.start();
-            sort3.start();
-            sort4.start();
+        ArrayList <Thread> threads=getThreads(sorts);
+        WakeThread wake = new WakeThread(threads);
+        synchronized (Sort.monitor) {
+            startThread(threads);
             wake.start();
 
 
@@ -63,5 +41,42 @@ public class Start {
 
 
     }
+    public  JFrame getWindow()
+    {
+        JFrame window=new JFrame();
+        window.setLayout(new BoxLayout(window.getContentPane(), BoxLayout.X_AXIS));
+        window.setSize(new Dimension(600, 600));
+        return window;
+    }
+   public ArrayList <Sort> getSorts(int []mas)
+   {
+       ArrayList<Sort> sorts= new ArrayList <Sort>();
+       sorts.add(new BubbleSort(mas.clone()));
+       sorts.add(new InsertionSort(mas.clone()));
+       sorts.add(new SelectionSort(mas.clone()));
+       sorts.add(new ShellSort(mas.clone()));
+       return sorts;
+   }
+    public void add(ArrayList<Sort> sorts,JFrame window)
+    {
+        for (Sort a:sorts
+             ) {window.add(a.my,FlowLayout.LEFT);
+        }
+    }
+    public ArrayList<Thread> getThreads(ArrayList<Sort> sorts)
+    {
+        ArrayList<Thread> threads=new ArrayList<Thread>();
+        for (Sort i:sorts
+             ) {threads.add(new Thread(i));
 
+        }
+        return threads;
+    }
+    public void startThread(ArrayList<Thread> threads)
+    {
+        for (Thread i:threads
+             ) {i.start();
+
+        }
+    }
 }

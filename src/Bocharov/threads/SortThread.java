@@ -13,10 +13,6 @@ import Bocharov.com.sorts.Sort;
  */
 public class SortThread extends Thread{
    public final Sort sort;
-   // public static final Object monitor=new Object();
-   // JButton start;
-    //JButton pause;
-  //  boolean isRunning=false;
 
     public SortThread(Sort sort) {
         this.sort = sort;

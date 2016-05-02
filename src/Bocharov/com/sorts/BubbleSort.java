@@ -14,10 +14,10 @@ public class BubbleSort extends Sort {
     public BubbleSort(int[] mas) {
         super(mas);
     }
-    
+
 
     @Override
-    public void sort() {
+    public synchronized void sort() {
 
          for (int i = 0; i < mas.length - 1; i++) {
             for (int j = 0; j < mas.length - i - 1; j++)
@@ -25,20 +25,11 @@ public class BubbleSort extends Sort {
                     int t = mas[j];
                     mas[j] = mas[j + 1];
                     mas[j + 1] = t;
+                    update();
 
 
 
-                    try {
-                        synchronized (monitor) {
-                            my.updateUI();
-                            this.isPause=true;
-                            monitor.wait();
 
-
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
 
 
                 }

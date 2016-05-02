@@ -4,14 +4,16 @@ import Bocharov.com.sorts.Sort;
 
 import java.util.List;
 
+
 /**
  * Created by Nodyke on 30.04.2016.
  */
 public class WakeThread extends Thread {
-    List<SortThread> threads;
-    public final Object monitor = Sort.monitor;
+    List<Thread> threads;
+    int count=0;
 
-    public WakeThread(List<SortThread> threads) {
+
+    public WakeThread(List<Thread> threads) {
         this.threads = threads;
     }
 
@@ -19,9 +21,18 @@ public class WakeThread extends Thread {
     public void run() {
 
 
-synchronized (monitor) {
-    monitor.notifyAll();
-}
+synchronized (Sort.monitor) {
+
+    while (true) {
+
+        Sort.monitor.notifyAll();
+
+
+
 
         }
+    }
+    }
 }
+
+
